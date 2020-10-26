@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity() {
         mAdapter= AndroidFlavourAdapter()
         flavour_list.layoutManager=LinearLayoutManager(this)
         flavour_list.adapter=mAdapter
+        /**
+         * 안드로이드 디저트 리스트
+         */
         var flavorList= mutableListOf<AndroidFlavours>(
                 AndroidFlavours("Cupcake",R.drawable.cupcake),
                 AndroidFlavours("Donut",R.drawable.donut),

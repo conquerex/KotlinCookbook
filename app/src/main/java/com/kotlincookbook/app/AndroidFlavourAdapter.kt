@@ -13,34 +13,44 @@ import kotlin.properties.Delegates
 /**
  * Created by theseus on 21/10/17.
  */
-class AndroidFlavourAdapter:RecyclerView.Adapter<AndroidFlavourAdapter.FlavourViewHolder>() {
-    var flavourItems:List<AndroidFlavours> by Delegates.observable(emptyList()){
-        property, oldValue, newValue ->
-        notifyChanges(oldValue,newValue)
+class AndroidFlavourAdapter : RecyclerView.Adapter<AndroidFlavourAdapter.FlavourViewHolder>() {
+
+    /**
+     * observable 속성
+     * 리스너는 (MainActivity의) flavorList의 변경에 대한 알림을 받을 것
+     */
+    var flavourItems: List<AndroidFlavours> by Delegates.observable(emptyList()) { property, oldValue, newValue ->
+        notifyChanges(oldValue, newValue)
     }
 
     private fun notifyChanges(oldValue: List<AndroidFlavours>, newValue: List<AndroidFlavours>) {
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+
+            /**
+             * payload의 변경사항을 가져오는 때
+             * areItemsTheSame    : true
+             * areContentsTheSame : false
+             */
             override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-                val oldFlavor=oldValue.get(oldItemPosition)
-                val newFlavor=newValue.get(newItemPosition)
-                val bundle=Bundle()
-                if(!oldFlavor.name.equals(newFlavor.name)){
-                    bundle.putString("name",newFlavor.name)
+                val oldFlavor = oldValue.get(oldItemPosition)
+                val newFlavor = newValue.get(newItemPosition)
+                val bundle = Bundle()
+                if (!oldFlavor.name.equals(newFlavor.name)) {
+                    bundle.putString("name", newFlavor.name)
                 }
-                if(!oldFlavor.image.equals(newFlavor.image)){
-                    bundle.putInt("image",newFlavor.image)
+                if (!oldFlavor.image.equals(newFlavor.image)) {
+                    bundle.putInt("image", newFlavor.image)
                 }
-                if(bundle.size()==0) return null
+                if (bundle.size() == 0) return null
                 return bundle
             }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldValue.get(oldItemPosition)==newValue.get(newItemPosition)
+                return oldValue.get(oldItemPosition) == newValue.get(newItemPosition)
             }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldValue.get(oldItemPosition).name.equals(newValue.get(newItemPosition).name)&&oldValue.get(oldItemPosition).image.equals(newValue.get(newItemPosition).image)
+                return oldValue.get(oldItemPosition).name.equals(newValue.get(newItemPosition).name) && oldValue.get(oldItemPosition).image.equals(newValue.get(newItemPosition).image)
             }
 
             override fun getOldListSize() = oldValue.size
@@ -49,6 +59,10 @@ class AndroidFlavourAdapter:RecyclerView.Adapter<AndroidFlavourAdapter.FlavourVi
 
         })
 
+        /**
+         * Diff 계산 후에 DiffUtils 객체가 변경 내용을 Adapter에 전달하기 위해
+         * dispatchUpdatesTo 메소드를 호출
+         */
         diff.dispatchUpdatesTo(this)
     }
 
@@ -56,15 +70,18 @@ class AndroidFlavourAdapter:RecyclerView.Adapter<AndroidFlavourAdapter.FlavourVi
         return FlavourViewHolder(parent.inflate(R.layout.flavour_item))
     }
 
+    /**
+     * payload의 데이터 변경사항을 업데이트 하기 위해
+     */
     override fun onBindViewHolder(holder: FlavourViewHolder, position: Int, payloads: MutableList<Any>?) {
         if (payloads != null) {
             if (payloads.isEmpty())
-                return onBindViewHolder(holder,position)
+                return onBindViewHolder(holder, position)
             else {
                 val o = payloads.get(0) as Bundle
                 for (key in o.keySet()) {
                     if (key == "name") {
-                        holder.name.text=o.getString("name")
+                        holder.name.text = o.getString("name")
                     } else if (key == "image") {
                         holder.image.loadImage(o.getInt("image"))
                     }
@@ -73,16 +90,16 @@ class AndroidFlavourAdapter:RecyclerView.Adapter<AndroidFlavourAdapter.FlavourVi
         }
     }
 
-    override fun getItemCount(): Int =flavourItems.size
+    override fun getItemCount(): Int = flavourItems.size
 
     override fun onBindViewHolder(holder: FlavourViewHolder, position: Int) {
-        holder.name.text=flavourItems.get(holder.adapterPosition).name
+        holder.name.text = flavourItems.get(holder.adapterPosition).name
         holder.image.loadImage(flavourItems.get(holder.adapterPosition).image)
     }
 
-    inner class FlavourViewHolder(var view: View):RecyclerView.ViewHolder(view){
-        var name:TextView = view.findViewById(R.id.textView)
-        var image:ImageView = view.findViewById(R.id.imageView)
+    inner class FlavourViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
+        var name: TextView = view.findViewById(R.id.textView)
+        var image: ImageView = view.findViewById(R.id.imageView)
     }
 }
 

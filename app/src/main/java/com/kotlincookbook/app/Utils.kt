@@ -10,6 +10,10 @@ import java.util.*
 /**
  * Created by theseus on 21/10/17.
  */
+
+/**
+ * 확장 함수
+ */
 fun ImageView.loadImage(image: Int) {
     Glide.with(context).load(image).into(this)
 }
