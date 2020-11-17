@@ -4,9 +4,19 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 
 class HelloActivity : AppCompatActivity() {
+
+    private val textView: TextView by lazy {
+        findViewById(R.id.text_view)
+    }
+
+    val prefs: Prefs by lazy {
+        App.prefs!!
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hello)
@@ -22,5 +32,7 @@ class HelloActivity : AppCompatActivity() {
         })
         btn2.setOnClickListener { Toast.makeText(this@HelloActivity, "Button 2 Click !!!", Toast.LENGTH_SHORT).show() }
         btn3.setOnClickListener { Toast.makeText(this, "Button 3 Click !!!!!", Toast.LENGTH_SHORT).show() }
+
+        textView.text = "onCreate..."
     }
 }
