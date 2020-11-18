@@ -28,6 +28,7 @@ class HelloActivity : AppCompatActivity() {
         btn1.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 Toast.makeText(this@HelloActivity, "Button 1 Click !!!", Toast.LENGTH_SHORT).show()
+                textView.text = "click Button 1"
             }
         })
         btn2.setOnClickListener { Toast.makeText(this@HelloActivity, "Button 2 Click !!!", Toast.LENGTH_SHORT).show() }

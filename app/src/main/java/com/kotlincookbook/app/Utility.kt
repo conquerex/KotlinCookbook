@@ -10,4 +10,8 @@ object Utility {
     fun functionUnderTest() {
         println("functionUnderTest")
     }
+
+    fun methodThrowsException() {
+        throw IllegalArgumentException("나이는 정수여야 합니다.")
+    }
 }
