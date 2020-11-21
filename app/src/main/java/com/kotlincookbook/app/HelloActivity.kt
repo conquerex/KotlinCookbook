@@ -34,6 +34,6 @@ class HelloActivity : AppCompatActivity() {
         btn2.setOnClickListener { Toast.makeText(this@HelloActivity, "Button 2 Click !!!", Toast.LENGTH_SHORT).show() }
         btn3.setOnClickListener { Toast.makeText(this, "Button 3 Click !!!!!", Toast.LENGTH_SHORT).show() }
 
-        textView.text = "onCreate..."
+//        textView.text = "onCreate..."
     }
 }
