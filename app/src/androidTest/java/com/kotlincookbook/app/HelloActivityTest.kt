@@ -1,17 +1,19 @@
 package com.kotlincookbook.app
 
 import android.content.Intent
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.action.ViewActions.click
 import org.junit.rules.ExpectedException
+import org.junit.runner.RunWith
+import org.junit.Assert.*
 
 /**
  * Created by jongkook on 2020.11.17
@@ -62,5 +64,28 @@ class HelloActivityTest {
         onView(withText("click Button 1"))
                 .check(matches(isDisplayed()))
     }
+
+    @Test
+    fun testAssettEquals() {
+        assertEquals(MyObj("abc"), MyObj("abc"))
+//        assertEquals(YourObj("abc"), YourObj("abc"))
+    }
 }
 
+class YourObj(var name: String?)
+
+class MyObj(var name: String?) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other)
+            return true
+
+        if (other?.javaClass != javaClass)
+            return false
+
+        other as MyObj
+        if (name != other.name)
+            return false
+
+        return true
+    }
+}
